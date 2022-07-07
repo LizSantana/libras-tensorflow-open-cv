@@ -5,14 +5,12 @@ from keras import models
 import os
 import tensorflow as tf
 
-#checkpoint_path = "training_gender/cp.ckpt"
-#checkpoint_dir = os.path.dirname(checkpoint_path)
 
 with open('classes_libras.txt', 'r') as f:
     classes = f.read().split('\n')
 
 model = models.load_model('model_libras2.h5')
-#model.load_weights(tf.train.latest_checkpoint(checkpoint_dir))
+
 video = cv2.VideoCapture(0)
 
 def keras_predict(model, image):
@@ -41,14 +39,6 @@ while True:
         p = keras_predict(model, img_array)
         print(p)
         cv2.putText(frame, f'Letra: {str(p[1])}, Precisão: {str(p[0])}', (200, 200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 255))
-        #print(prediction[0][0])
-        #Customize this part to your liking...
-        #if(prediction == 1 or prediction == 0):
-        #    print("No Human")
-        #elif(prediction < 0.5 and prediction != 0):
-        #    print("Female")
-        #elif(prediction > 0.5 and prediction != 1):
-        #    print("Male")
 
         cv2.imshow("Prediction", frame)
         key=cv2.waitKey(1)
